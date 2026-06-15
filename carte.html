@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#17120c" />
+<title>L'Atelier Géraldine Esther · Carte</title>
+<meta name="description" content="Soins énergétiques, massages et rituels bien-être — L'Atelier Géraldine Esther, Gretz-Armainvilliers." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17120c;
+    --ink-2:#201912;
+    --ink-3:#2c2218;
+    --or:#d4ac4a;
+    --gold-soft:#e6cd86;
+    --sage:#9db8a3;
+    --sage-deep:#80a189;
+    --cream:#f4ede1;
+    --muted:#b9ab90;
+    --line:rgba(212,172,74,.24);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+  body{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:28px 18px;
+    background:
+      radial-gradient(120% 60% at 50% -10%, rgba(212,172,74,.16), transparent 60%),
+      radial-gradient(90% 50% at 50% 115%, rgba(125,160,137,.10), transparent 60%),
+      var(--ink);}
+  .serif{font-family:'Cormorant Garamond',serif}
+  a{text-decoration:none;color:inherit}
+
+  .card{width:100%;max-width:412px;background:linear-gradient(180deg,var(--ink-2),#1a140d);
+    border:1px solid var(--line);border-radius:26px;padding:38px 26px 30px;text-align:center;
+    box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 30px 70px -30px rgba(0,0,0,.8),0 0 50px -20px rgba(212,172,74,.25);}
+
+  .logo{display:block;width:min(190px,62%);height:auto;margin:0 auto 12px;
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,.45)) drop-shadow(0 0 16px rgba(212,172,74,.14))}
+
+  .eyebrow{font-size:.64rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:2.35rem;line-height:1.05;color:var(--cream);margin:7px 0 0}
+  h1 em{font-style:italic;color:var(--gold-soft)}
+  .tagline{margin-top:12px;font-size:.86rem;letter-spacing:.4px;color:var(--muted);line-height:1.5}
+  .place{margin-top:12px;display:inline-flex;align-items:center;gap:7px;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--sage)}
+  .place svg{width:13px;height:13px}
+
+  .divider{display:flex;align-items:center;gap:14px;margin:26px 4px}
+  .divider::before,.divider::after{content:"";height:1px;flex:1;background:var(--line)}
+  .divider span{color:var(--or);font-size:.8rem}
+
+  .cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:16px;
+    background:linear-gradient(180deg,#e7c468,#cda23f);color:#231803;font-weight:500;font-size:.82rem;
+    letter-spacing:2px;text-transform:uppercase;transition:.18s;border:1px solid rgba(255,255,255,.18)}
+  .cta:hover{filter:brightness(1.05);transform:translateY(-1px);box-shadow:0 10px 26px -12px rgba(212,172,74,.7)}
+  .cta svg{width:17px;height:17px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px}
+  .lnk{display:flex;align-items:center;justify-content:center;gap:9px;padding:14px 10px;border-radius:14px;
+    border:1px solid var(--line);background:rgba(255,255,255,.015);color:var(--cream);
+    font-size:.74rem;letter-spacing:1.5px;text-transform:uppercase;transition:.18s}
+  .lnk:hover{border-color:var(--or);color:var(--gold-soft);background:rgba(212,172,74,.06);transform:translateY(-1px)}
+  .lnk svg{width:17px;height:17px;flex:none;color:var(--sage)}
+  .lnk:hover svg{color:var(--gold-soft)}
+
+  .contact{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:11px;padding:15px;
+    border-radius:14px;border:1px dashed var(--or);background:transparent;color:var(--gold-soft);cursor:pointer;
+    font-family:'Jost',sans-serif;font-weight:400;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:.18s}
+  .contact:hover{background:rgba(212,172,74,.08)}
+  .contact svg{width:17px;height:17px}
+
+  .qr-wrap{margin-top:26px;padding-top:24px;border-top:1px solid var(--line)}
+  .qr-tile{width:188px;height:188px;margin:0 auto;background:#f6efe1;border-radius:18px;padding:14px;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--line),0 14px 30px -18px rgba(0,0,0,.7)}
+  .qr-tile img,.qr-tile canvas{width:100%!important;height:100%!important;display:block;border-radius:4px}
+  .qr-cap{margin-top:14px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+  .foot{margin-top:24px;font-size:.6rem;letter-spacing:1.5px;color:rgba(185,171,144,.6)}
+
+  /* entrée douce */
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+    .reveal:nth-child(1){animation-delay:.05s}.reveal:nth-child(2){animation-delay:.12s}
+    .reveal:nth-child(3){animation-delay:.19s}.reveal:nth-child(4){animation-delay:.26s}
+    .reveal:nth-child(5){animation-delay:.33s}.reveal:nth-child(6){animation-delay:.40s}
+    .reveal:nth-child(7){animation-delay:.47s}.reveal:nth-child(8){animation-delay:.54s}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <img class="logo reveal" src="logo.png" alt="L'Atelier Géraldine Esther" />
+    <div class="reveal">
+      <div class="eyebrow">L'Atelier</div>
+      <h1 class="serif">Géraldine <em>Esther</em></h1>
+      <p class="tagline">Soins énergétiques · Massages magnétiques · Rituels bien-être</p>
+      <div class="place">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        Gretz-Armainvilliers
+      </div>
+    </div>
+
+    <div class="divider reveal"><span>✦</span></div>
+
+    <a class="cta reveal" href="https://atelier-geraldine.vercel.app" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4.5" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/><path d="M8.5 14.5l2.2 2.2 4.3-4.4" stroke-width="1.9"/></svg>
+      Réserver un soin
+    </a>
+
+    <div class="grid reveal">
+      <a class="lnk" href="https://www.geraldineesther.fr" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg>
+        Site
+      </a>
+      <a class="lnk" href="tel:+33627627633">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3.5h3l1.5 5-2 1.5a12 12 0 0 0 5 5l1.5-2 5 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 3 5.7 2 2 0 0 1 5 3.5z"/></svg>
+        Appeler
+      </a>
+      <a class="lnk" href="https://www.instagram.com/l_atelier_geraldine__esther" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a class="lnk" href="https://www.facebook.com/share/1CLJkd3AqP/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.4l.4-3h-2.8V8.1c0-.85.25-1.43 1.5-1.43h1.4V4.01c-.7-.1-1.5-.16-2.3-.16-2.3 0-3.9 1.4-3.9 3.98V10H8v3h2.6v8z"/></svg>
+        Facebook
+      </a>
+    </div>
+
+    <button class="contact reveal" id="saveContact">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="8" r="3.4"/><path d="M19 8v6M22 11h-6"/></svg>
+      Enregistrer mon contact
+    </button>
+
+    <div class="qr-wrap reveal">
+      <div class="qr-tile"><div id="qr"></div></div>
+      <div class="qr-cap">Scanne pour ouvrir ma carte</div>
+    </div>
+
+    <div class="foot reveal">L'Atelier Géraldine Esther</div>
+  </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  var CARD_URL = location.href.split('#')[0].split('?')[0];
+  if(!/^https?:/.test(CARD_URL)) CARD_URL='https://atelier-geraldine.vercel.app/carte.html';
+
+  function imgFallback(){
+    document.getElementById('qr').innerHTML='<img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data='+encodeURIComponent(CARD_URL)+'">';
+  }
+  function makeQR(){
+    var box=document.getElementById('qr');
+    if(window.QRCode){
+      try{ new QRCode(box,{text:CARD_URL,width:200,height:200,colorDark:'#1b1206',colorLight:'#f6efe1',correctLevel:QRCode.CorrectLevel.M}); }
+      catch(e){ imgFallback(); }
+    } else { imgFallback(); }
+  }
+  if(window.QRCode){ makeQR(); }
+  else { window.addEventListener('load',function(){ setTimeout(function(){ if(!document.getElementById('qr').hasChildNodes()) makeQR(); },300); }); }
+
+  var vcard=[
+    'BEGIN:VCARD','VERSION:3.0',
+    'N:Esther;Géraldine;;;',
+    "FN:L'Atelier Géraldine Esther",
+    "ORG:L'Atelier Géraldine Esther",
+    'TITLE:Praticienne bien-être',
+    'TEL;TYPE=CELL:+33627627633',
+    'URL:https://atelier-geraldine.vercel.app',
+    'URL:https://www.geraldineesther.fr',
+    'X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/l_atelier_geraldine__esther',
+    'X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/share/1CLJkd3AqP/',
+    'ADR;TYPE=WORK:;;;Gretz-Armainvilliers;;;France',
+    'NOTE:Réservez votre soin : https://atelier-geraldine.vercel.app',
+    'END:VCARD'
+  ].join('\r\n');
+
+  document.getElementById('saveContact').addEventListener('click',function(){
+    var uri='data:text/vcard;charset=utf-8,'+encodeURIComponent(vcard);
+    var a=document.createElement('a');
+    a.href=uri; a.download='Geraldine-Esther.vcf';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+</script>
+</body>
+</html>
