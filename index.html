@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="light" />
+<meta name="supported-color-schemes" content="light" />
+<title>Réserve ton soin · Géraldine Esther</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#f6f2e9;
+    --bg-2:#fefcf8;
+    --bg-3:#efe7d6;
+    --line:#e3d8bf;
+    --or:#d4ac4a;
+    --gold:#c0a043;
+    --gold-soft:#9f7e28;
+    --sage:#6e8f76;
+    --sage-deep:#56755d;
+    --cream:#463c2f;
+    --muted:#8a7c66;
+    --muted-2:#b0a288;
+    --danger:#b5614f;
+    --ok:#6e8f76;
+    --radius:14px;
+    --shadow:0 16px 44px rgba(120,100,60,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#f6f2e9;color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;line-height:1.55;background:#f6f2e9}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:.3px}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select,textarea{font-family:inherit;font-weight:300}
+  a{color:var(--gold)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 90px}
+
+  /* ───── Top bar ───── */
+  .topbar{position:sticky;top:0;z-index:40;background:rgba(246,242,233,.90);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .topbar-in{max-width:760px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .brand{display:flex;flex-direction:column;line-height:1}
+  .brand .name{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:var(--gold-soft);letter-spacing:1px}
+  .brand .sub{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted-2);margin-top:3px}
+  .mode-toggle{display:flex;border:1px solid var(--or);border-radius:30px;overflow:hidden}
+  .mode-toggle button{padding:7px 14px;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .mode-toggle button.on{background:var(--gold);color:#1a140a;font-weight:500}
+
+  /* ───── Hero (client) ───── */
+  .hero{text-align:center;padding:46px 0 8px}
+  .hero .glyph{width:64px;height:64px;margin:0 auto 18px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.6rem;font-family:'Cormorant Garamond',serif}
+  .hero h1{font-size:2.5rem;line-height:1.05;color:var(--cream)}
+  .hero h1 em{font-style:italic;color:var(--gold-soft)}
+  .hero p{max-width:430px;margin:14px auto 0;color:var(--muted);font-size:.95rem}
+
+  /* ───── Stepper ───── */
+  .steps{display:flex;justify-content:center;gap:8px;margin:30px 0 26px}
+  .steps .dot{display:flex;align-items:center;gap:8px}
+  .steps .num{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.78rem;color:var(--muted-2)}
+  .steps .dot.active .num{border-color:var(--gold);color:var(--gold)}
+  .steps .dot.done .num{background:var(--sage-deep);border-color:var(--sage-deep);color:var(--cream)}
+  .steps .bar{width:26px;height:1px;background:var(--line);align-self:center}
+
+  .section-title{font-size:1.7rem;color:var(--cream);margin-bottom:4px}
+  .section-sub{color:var(--muted);font-size:.9rem;margin-bottom:22px}
+
+  /* ───── Category tabs ───── */
+  .cats{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+  .cats button{flex:1;min-width:140px;padding:13px;border:1px solid var(--or);border-radius:var(--radius);background:var(--bg-2);color:var(--sage);font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:.2s}
+  .cats button.on{border-color:var(--or);color:var(--sage-deep);background:rgba(110,143,118,.10);font-weight:500;box-shadow:0 0 0 1px var(--or) inset,0 0 14px rgba(212,172,74,.40)}
+
+  /* ───── Soin cards ───── */
+  .soin-grid{display:grid;gap:12px}
+  .soin{border:1px solid var(--or);border-radius:var(--radius);background:var(--bg-2);padding:18px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+  .soin:hover{border-color:var(--or);transform:translateY(-2px);box-shadow:0 0 16px rgba(212,172,74,.30)}
+  .soin.sel{border-color:var(--or);box-shadow:0 0 0 1.5px var(--or) inset,0 0 18px rgba(212,172,74,.42)}
+  .soin .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .soin .nom{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold-soft)}
+  .soin .prix{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--sage-deep);white-space:nowrap}
+  .soin .meta{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted-2);margin:4px 0 9px}
+  .soin .desc{color:var(--muted);font-size:.9rem}
+  .soin .cure{margin-top:9px;font-size:.74rem;color:var(--sage);letter-spacing:.5px}
+
+  /* ───── Calendar ───── */
+  .cal{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .cal-head .mois{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold-soft);text-transform:capitalize}
+  .cal-head button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);color:var(--cream);font-size:1rem}
+  .cal-head button:hover{border-color:var(--gold);color:var(--gold)}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-grid .wd{text-align:center;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2);padding:6px 0}
+  .cal-day{aspect-ratio:1;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--cream);border:1px solid transparent;transition:.15s}
+  .cal-day.av{background:var(--bg-3);border-color:var(--line);cursor:pointer}
+  .cal-day.av:hover{border-color:var(--gold);color:var(--gold)}
+  .cal-day.off{color:var(--muted-2);opacity:.35}
+  .cal-day.sel{background:var(--gold);color:#1a140a;font-weight:500}
+  .cal-day.today{position:relative}
+  .cal-day.today::after{content:'';position:absolute;bottom:5px;width:4px;height:4px;border-radius:50%;background:var(--sage)}
+
+  /* ───── Time slots ───── */
+  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:9px;margin-top:18px}
+  .slot{padding:11px 0;text-align:center;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);color:var(--cream);font-size:.92rem;transition:.15s}
+  .slot:hover{border-color:var(--gold);color:var(--gold)}
+  .slot.sel{background:var(--gold);color:#1a140a;font-weight:500;border-color:var(--gold)}
+  .empty-note{color:var(--muted);font-size:.88rem;text-align:center;padding:24px 0}
+
+  /* ───── Form ───── */
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .field input,.field textarea{width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:13px;color:var(--cream);font-size:.95rem}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+  .field textarea{resize:vertical;min-height:74px}
+
+  /* ───── Recap ───── */
+  .recap{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+  .recap-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .recap-row:last-child{border-bottom:none}
+  .recap-row .k{color:var(--muted)}
+  .recap-row .v{color:var(--cream);text-align:right}
+  .recap-row.total .v,.recap-row.total .k{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--sage-deep)}
+
+  /* ───── Buttons ───── */
+  .nav-btns{display:flex;gap:10px;margin-top:8px}
+  .btn{padding:14px 20px;border-radius:30px;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;transition:.18s;text-align:center}
+  .btn-primary{background:var(--gold);color:#1a140a;font-weight:500;flex:1}
+  .btn-primary:hover{background:var(--gold-soft)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed}
+  .btn-ghost{border:1px solid var(--line);color:var(--muted)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* ───── Confirmation ───── */
+  .confirm{text-align:center;padding:40px 0}
+  .confirm .seal{width:84px;height:84px;margin:0 auto 22px;border:1px solid var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--sage);font-size:2.2rem;animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+  .confirm h2{font-size:2rem;color:var(--cream)}
+  .confirm p{color:var(--muted);max-width:400px;margin:12px auto 0}
+
+  /* ───── Admin ───── */
+  .admin-tabs{display:flex;gap:6px;margin:22px 0 18px;overflow-x:auto;padding-bottom:4px}
+  .admin-tabs button{padding:9px 15px;border-radius:24px;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+  .admin-tabs button.on{background:var(--gold);color:#1a140a;font-weight:500;border-color:var(--gold)}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+  .stat{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px;text-align:center}
+  .stat .n{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:var(--gold-soft)}
+  .stat .l{font-size:.64rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted-2);margin-top:2px}
+
+  .rdv{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:15px;margin-bottom:11px}
+  .rdv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .rdv .who{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--cream)}
+  .rdv .when{font-size:.8rem;color:var(--muted);margin-top:2px}
+  .rdv .soin-tag{font-size:.72rem;color:var(--gold);letter-spacing:.5px;margin-top:6px}
+  .badge{font-size:.6rem;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:20px;white-space:nowrap}
+  .badge.attente{background:rgba(201,123,107,.15);color:var(--danger);border:1px solid var(--danger)}
+  .badge.confirme{background:rgba(122,155,128,.15);color:var(--sage);border:1px solid var(--sage)}
+  .rdv-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .mini{padding:8px 12px;border-radius:20px;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--line);color:var(--muted)}
+  .mini:hover{border-color:var(--gold);color:var(--gold)}
+  .mini.go{background:var(--sage-deep);border-color:var(--sage-deep);color:#fbf7ef}
+  .mini.del:hover{border-color:var(--danger);color:var(--danger)}
+  .rdv .contact{font-size:.8rem;color:var(--muted);margin-top:8px}
+  .rdv .sms-log{font-size:.68rem;color:var(--muted-2);margin-top:8px;letter-spacing:.3px}
+  .rdv .sms-log span{color:var(--sage)}
+
+  /* admin: créneaux */
+  .day-row{display:flex;align-items:center;gap:10px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;flex-wrap:wrap}
+  .day-row .jour{width:90px;font-size:.85rem;color:var(--cream)}
+  .day-row input[type=time]{background:var(--bg-3);border:1px solid var(--line);border-radius:8px;padding:7px;color:var(--cream);font-size:.82rem}
+  .day-row .sep{color:var(--muted-2)}
+  .switch{width:42px;height:23px;border-radius:20px;background:var(--bg-3);border:1px solid var(--line);position:relative;transition:.2s;flex-shrink:0}
+  .switch.on{background:var(--sage-deep);border-color:var(--sage-deep)}
+  .switch::after{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:var(--cream);top:2px;left:2px;transition:.2s}
+  .switch.on::after{left:21px}
+
+  .card{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
+  .card h3{font-size:1.3rem;color:var(--gold-soft);margin-bottom:6px}
+  .card p.hint{color:var(--muted);font-size:.84rem;margin-bottom:14px}
+  .help{background:rgba(122,155,128,.08);border:1px solid var(--sage-deep);border-radius:10px;padding:12px;font-size:.8rem;color:var(--muted);margin-top:12px}
+  .help b{color:var(--sage)}
+
+  .lock{max-width:340px;margin:70px auto;text-align:center}
+  .lock .glyph{width:60px;height:60px;border:1px solid var(--gold);border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.5rem}
+  .lock input{text-align:center;letter-spacing:6px;font-size:1.3rem}
+
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--bg-3);border:1px solid var(--gold);color:var(--cream);padding:13px 22px;border-radius:30px;font-size:.85rem;box-shadow:var(--shadow);z-index:90;opacity:0;transition:.3s;pointer-events:none}
+  .toast.show{opacity:1}
+
+  .pill-info{font-size:.78rem;color:var(--muted);background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin-bottom:16px;display:flex;gap:8px;align-items:center}
+  .pill-info span{color:var(--gold)}
+  @media(max-width:480px){
+    .hero h1{font-size:2rem}
+    .stat-grid{grid-template-columns:repeat(3,1fr)}
+    .soin .nom{font-size:1.25rem}
+  }
+  .lp-foot{margin:48px auto 10px;max-width:520px;text-align:center;border-top:1px solid var(--line);padding-top:26px}
+  .lp-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+  .lp-links a{font-family:'Jost',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--sage-deep);text-decoration:none;transition:.2s}
+  .lp-links a:hover{color:var(--or)}
+  .lp-card-link{display:inline-block;margin-top:16px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.02rem;color:var(--gold-soft);text-decoration:none}
+  .lp-card-link:hover{color:var(--or)}
+  /* Bas de page social (réservation) */
+  .brand-footer{max-width:560px;margin:8px auto 44px;padding:26px 20px 0;border-top:1px solid var(--line);text-align:center}
+  .brand-footer .eyebrow{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted-2);margin-bottom:15px}
+  .brand-footer .socials{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+  .brand-footer .socials a{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--or);border-radius:30px;color:var(--sage-deep);font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--bg-2);transition:.18s;text-decoration:none}
+  .brand-footer .socials a:hover{box-shadow:0 0 14px rgba(212,172,74,.30);transform:translateY(-1px);color:var(--gold-soft)}
+  .brand-footer .socials svg{width:16px;height:16px;flex:none}
+  .brand-footer .legal{margin-top:18px;font-size:.62rem;letter-spacing:1.5px;color:var(--muted-2)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="name">L'Atelier Géraldine Esther</span>
+    </div>
+    <div class="mode-toggle">
+      <button id="m-client" class="on" onclick="setMode('client')">Réserver</button>
+      <button id="m-admin" onclick="setMode('admin')">Mon espace</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="view-client"></div>
+  <div id="view-admin" style="display:none"></div>
+</div>
+
+<footer class="brand-footer" id="brand-footer">
+  <div class="eyebrow">Retrouvez-moi</div>
+  <div class="socials">
+    <a href="https://www.geraldineesther.fr" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/></svg>
+      Site</a>
+    <a href="https://www.instagram.com/l_atelier_geraldine__esther" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      Instagram</a>
+    <a href="https://www.facebook.com/share/1CLJkd3AqP/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.4l.4-3h-2.8V8.1c0-.85.25-1.43 1.5-1.43h1.4V4.01c-.7-.1-1.5-.16-2.3-.16-2.3 0-3.9 1.4-3.9 3.98V10H8v3h2.6v8z"/></svg>
+      Facebook</a>
+  </div>
+  <div class="legal">L'Atelier Géraldine Esther · Gretz-Armainvilliers</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   L'ATELIER GÉRALDINE ESTHER — interface reliée au serveur (API)
+   Les réservations sont stockées en ligne et arrivent dans l'espace admin.
+   ════════════════════════════════════════════════════════════════ */
+
+let SOINS = [];
+let DISPOS = {};
+let BUSY = [];
+let CFG = { pause:60, pas:30, delaiMin:48 };
+let ADMIN_RDVS = [];
+let ADMIN_PIN_MEM = null;
+let CLIENT_LOADED = false;
+
+/* ─── Appels API ─── */
+async function api(path, opts={}){
+  const headers = Object.assign({'content-type':'application/json'}, opts.headers||{});
+  if(ADMIN_PIN_MEM) headers['x-admin-pin'] = ADMIN_PIN_MEM;
+  const r = await fetch(path, { method: opts.method||'GET', headers, body: opts.body?JSON.stringify(opts.body):undefined });
+  if(!r.ok){ let e={}; try{e=await r.json();}catch(_){} throw new Error(e.error || ('Erreur '+r.status)); }
+  try{ return await r.json(); }catch(_){ return {}; }
+}
+async function loadClientData(){
+  const [services, av] = await Promise.all([ api('/api/services'), api('/api/availability') ]);
+  SOINS = services; DISPOS = av.dispos||{}; BUSY = av.busy||[];
+  CFG.pause = av.pause; CFG.pas = av.pas; CFG.delaiMin = av.delaiMin;
+}
+async function loadAdminData(){
+  const [resv, av, services, config] = await Promise.all([
+    api('/api/reservations'), api('/api/availability'), api('/api/services'), api('/api/config')
+  ]);
+  ADMIN_RDVS = resv; DISPOS = av.dispos||{}; BUSY = av.busy||[]; SOINS = services; CFG = config;
+}
+
+/* ─── Helpers ─── */
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const JOURS_C=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const toMin=h=>{const[a,b]=h.split(':').map(Number);return a*60+b;};
+const toH=m=>`${pad(Math.floor(m/60))}:${pad(m%60)}`;
+function dateLisible(s){const[y,m,j]=s.split('-');return `${parseInt(j)} ${MOIS[parseInt(m)-1]} ${y}`;}
+function soinById(id){return SOINS.find(s=>s.id===id);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);}
+function dureeLisible(m){ if(m>=60){const h=Math.floor(m/60),r=m%60;return r?`${h}h${pad(r)}`:`${h}h`;} return `${m} min`; }
+
+/* ─── Créneaux libres (durée + pause + délai 48h) ─── */
+function creneauxDispo(dateStr, soin){
+  const conf=DISPOS[dateStr];
+  if(!conf) return [];
+  const ouv=toMin(conf.debut), ferm=toMin(conf.fin);
+  const pause=CFG.pause??60, pas=CFG.pas??30, delai=CFG.delaiMin??0;
+  const occ = BUSY.filter(b=>b.date===dateStr).map(b=>{const deb=toMin(b.heure);return {deb, fin:deb+(b.duree||60)+pause};});
+  const res=[];
+  for(let t=ouv; t+soin.duree<=ferm; t+=pas){
+    const monDeb=t, monFin=t+soin.duree+pause;
+    const libre = occ.every(o => monFin<=o.deb || monDeb>=o.fin);
+    const slotMs = new Date(dateStr+'T'+toH(t)+':00').getTime();
+    const tropTot = slotMs < Date.now() + delai*3600*1000;
+    if(libre && !tropTot) res.push(toH(t));
+  }
+  return res;
+}
+function jourADesCreneaux(dateStr){ return SOINS.some(s=>creneauxDispo(dateStr,s).length>0); }
+
+/* ════════════════════════════════════════════════════════════════
+   ESPACE CLIENTE — réservation
+   ════════════════════════════════════════════════════════════════ */
+let cState={step:1, cat:'Soins énergétiques', soinId:null, date:null, heure:null,
+            calM:new Date().getMonth(), calY:new Date().getFullYear(),
+            nom:'',prenom:'',tel:'',email:'',notes:''};
+
+function renderClient(){
+  const v=document.getElementById('view-client');
+  if(!CLIENT_LOADED){ v.innerHTML=`<div class="empty-note" style="padding:80px 0">Chargement…</div>`; return; }
+  if(cState.step===5){ v.innerHTML=clientConfirm(); return; }
+  v.innerHTML = clientHero() + stepper() + stepBody();
+  attachStepEvents();
+}
+function clientHero(){
+  if(cState.step!==1) return '';
+  return `<div class="hero">
+    <div class="glyph">✦</div>
+    <h1>Réserve ton <em>soin</em></h1>
+    <p>Un espace doux et vibrant pour respirer, relâcher, se retrouver. Choisis ton soin et ton moment.</p>
+  </div>`;
+}
+function stepper(){
+  const labels=['Soin','Date','Heure','Coordonnées'];
+  let h='<div class="steps">';
+  labels.forEach((l,i)=>{
+    const n=i+1;
+    const cls=cState.step===n?'active':(cState.step>n?'done':'');
+    h+=`<div class="dot ${cls}"><span class="num">${cState.step>n?'✓':n}</span></div>`;
+    if(i<labels.length-1) h+='<div class="bar"></div>';
+  });
+  return h+'</div>';
+}
+function stepBody(){
+  if(cState.step===1) return stepSoin();
+  if(cState.step===2) return stepDate();
+  if(cState.step===3) return stepHeure();
+  if(cState.step===4) return stepCoord();
+}
+function stepSoin(){
+  const cats=[...new Set(SOINS.map(s=>s.cat))];
+  let h=`<h2 class="section-title">Quel soin t'appelle ?</h2>
+         <p class="section-sub">Sélectionne une famille, puis ton soin.</p><div class="cats">`;
+  cats.forEach(c=>h+=`<button class="${c===cState.cat?'on':''}" data-cat="${c}">${c}</button>`);
+  h+='</div><div class="soin-grid">';
+  SOINS.filter(s=>s.cat===cState.cat).forEach(s=>{
+    h+=`<div class="soin ${s.id===cState.soinId?'sel':''}" data-soin="${s.id}">
+      <div class="head"><span class="nom">${s.nom}</span><span class="prix">${s.prix}€</span></div>
+      ${s.masquerDuree?'':`<div class="meta">${dureeLisible(s.duree)}</div>`}
+      <div class="desc">${s.desc}</div>
+      ${s.cure?`<div class="cure">✦ ${s.cure}</div>`:''}
+    </div>`;
+  });
+  h+='</div>';
+  h+=`<div class="nav-btns" style="margin-top:20px">
+        <button class="btn btn-primary" id="next1" ${cState.soinId?'':'disabled'}>Choisir la date →</button>
+      </div>`;
+  return h;
+}
+function stepDate(){
+  const s=soinById(cState.soinId);
+  return `<h2 class="section-title">Choisis ton jour</h2>
+    <p class="section-sub">${s.nom}${s.masquerDuree?'':' · '+dureeLisible(s.duree)}</p>
+    <div class="pill-info"><span>✦</span> Réservation jusqu'à 48h avant le soin. Une pause d'1 heure est gardée entre chaque rendez-vous, pour t'accueillir pleinement.</div>
+    ${calendrier()}
+    <div class="nav-btns" style="margin-top:20px">
+      <button class="btn btn-ghost" id="back2">← Retour</button>
+    </div>`;
+}
+function calendrier(){
+  const y=cState.calY,m=cState.calM;
+  const first=new Date(y,m,1).getDay();
+  const ndays=new Date(y,m+1,0).getDate();
+  const auj=ymd(new Date());
+  let h=`<div class="cal"><div class="cal-head">
+    <button id="calPrev">‹</button>
+    <span class="mois">${MOIS[m]} ${y}</span>
+    <button id="calNext">›</button></div><div class="cal-grid">`;
+  ['L','M','M','J','V','S','D'].forEach(d=>h+=`<div class="wd">${d}</div>`);
+  let blanks=(first+6)%7;
+  for(let i=0;i<blanks;i++) h+='<div></div>';
+  for(let d=1;d<=ndays;d++){
+    const ds=`${y}-${pad(m+1)}-${pad(d)}`;
+    const passe = ds<auj;
+    const dispo = !passe && jourADesCreneaux(ds);
+    let cls='cal-day';
+    if(dispo) cls+=' av'; else cls+=' off';
+    if(ds===cState.date) cls+=' sel';
+    if(ds===auj) cls+=' today';
+    h+=`<div class="${cls}" ${dispo?`data-date="${ds}"`:''}>${d}</div>`;
+  }
+  return h+'</div></div>';
+}
+function stepHeure(){
+  const s=soinById(cState.soinId);
+  const slots=creneauxDispo(cState.date,s);
+  let h=`<h2 class="section-title">Choisis ton heure</h2>
+    <p class="section-sub">${s.nom} · ${dateLisible(cState.date)}</p>`;
+  if(slots.length===0){
+    h+=`<p class="empty-note">Aucun créneau libre ce jour pour ce soin.<br>Reviens en arrière pour choisir une autre date.</p>`;
+  }else{
+    h+='<div class="slots">';
+    slots.forEach(t=>h+=`<button class="slot ${t===cState.heure?'sel':''}" data-heure="${t}">${t}</button>`);
+    h+='</div>';
+  }
+  h+=`<div class="nav-btns" style="margin-top:22px">
+        <button class="btn btn-ghost" id="back3">← Retour</button>
+        <button class="btn btn-primary" id="next3" ${cState.heure?'':'disabled'}>Mes coordonnées →</button>
+      </div>`;
+  return h;
+}
+function stepCoord(){
+  const s=soinById(cState.soinId);
+  return `<h2 class="section-title">Tes coordonnées</h2>
+    <p class="section-sub">Pour confirmer ta réservation et t'envoyer tes rappels.</p>
+    <div class="recap">
+      <div class="recap-row"><span class="k">Soin</span><span class="v">${s.nom}</span></div>
+      <div class="recap-row"><span class="k">Quand</span><span class="v">${dateLisible(cState.date)} · ${cState.heure}</span></div>
+      ${s.masquerDuree?'':`<div class="recap-row"><span class="k">Durée</span><span class="v">${dureeLisible(s.duree)}</span></div>`}
+      <div class="recap-row total"><span class="k">Tarif</span><span class="v">${s.prix}€</span></div>
+    </div>
+    <div class="field"><label>Prénom</label><input id="f-prenom" value="${cState.prenom}" placeholder="Ton prénom"></div>
+    <div class="field"><label>Nom</label><input id="f-nom" value="${cState.nom}" placeholder="Ton nom"></div>
+    <div class="field"><label>Téléphone (pour les rappels SMS)</label><input id="f-tel" value="${cState.tel}" placeholder="06 ..." inputmode="tel"></div>
+    <div class="field"><label>Email (facultatif)</label><input id="f-email" value="${cState.email}" placeholder="ton@email.fr"></div>
+    <div class="field"><label>Un mot pour Géraldine (facultatif)</label><textarea id="f-notes" placeholder="Allergie, attente particulière, première fois...">${cState.notes}</textarea></div>
+    <div class="nav-btns">
+      <button class="btn btn-ghost" id="back4">← Retour</button>
+      <button class="btn btn-primary" id="confirmBtn">Confirmer ma réservation</button>
+    </div>`;
+}
+function clientConfirm(){
+  return `<div class="confirm">
+    <div class="seal">✓</div>
+    <h2>Ta demande est envoyée</h2>
+    <p>Merci ${cState.prenom||''} 🌿 Ta réservation est bien enregistrée. Géraldine te confirmera très vite. Tu recevras un rappel la veille et le jour même.</p>
+    <div class="nav-btns" style="justify-content:center;margin-top:26px">
+      <button class="btn btn-ghost" onclick="resetClient()">Réserver un autre soin</button>
+    </div>
+  </div>`;
+}
+function attachStepEvents(){
+  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cState.cat=b.dataset.cat;renderClient();});
+  document.querySelectorAll('[data-soin]').forEach(b=>b.onclick=()=>{cState.soinId=b.dataset.soin;renderClient();});
+  const n1=document.getElementById('next1'); if(n1)n1.onclick=()=>{cState.step=2;renderClient();};
+  const b2=document.getElementById('back2'); if(b2)b2.onclick=()=>{cState.step=1;renderClient();};
+  const cp=document.getElementById('calPrev'); if(cp)cp.onclick=()=>{cState.calM--;if(cState.calM<0){cState.calM=11;cState.calY--;}renderClient();};
+  const cn=document.getElementById('calNext'); if(cn)cn.onclick=()=>{cState.calM++;if(cState.calM>11){cState.calM=0;cState.calY++;}renderClient();};
+  document.querySelectorAll('[data-date]').forEach(d=>d.onclick=()=>{cState.date=d.dataset.date;cState.heure=null;cState.step=3;renderClient();});
+  const b3=document.getElementById('back3'); if(b3)b3.onclick=()=>{cState.step=2;renderClient();};
+  document.querySelectorAll('[data-heure]').forEach(s=>s.onclick=()=>{cState.heure=s.dataset.heure;renderClient();});
+  const n3=document.getElementById('next3'); if(n3)n3.onclick=()=>{cState.step=4;renderClient();};
+  const b4=document.getElementById('back4'); if(b4)b4.onclick=()=>{saveCoord();cState.step=3;renderClient();};
+  const cb=document.getElementById('confirmBtn'); if(cb)cb.onclick=submitRdv;
+}
+function saveCoord(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value:'';};
+  cState.prenom=g('f-prenom');cState.nom=g('f-nom');cState.tel=g('f-tel');cState.email=g('f-email');cState.notes=g('f-notes');
+}
+async function submitRdv(){
+  saveCoord();
+  if(!cState.prenom.trim()||!cState.tel.trim()){toast('Prénom et téléphone sont nécessaires');return;}
+  const btn=document.getElementById('confirmBtn'); if(btn){btn.disabled=true;btn.textContent='Envoi…';}
+  try{
+    await api('/api/book',{method:'POST',body:{
+      soinId:cState.soinId, date:cState.date, heure:cState.heure,
+      prenom:cState.prenom.trim(), nom:cState.nom.trim(), tel:cState.tel.trim(),
+      email:cState.email.trim(), notes:cState.notes.trim()
+    }});
+    // recharger les créneaux occupés pour la suite
+    try{ const av=await api('/api/availability'); BUSY=av.busy||[]; }catch(_){}
+    cState.step=5; renderClient();
+  }catch(e){
+    toast(e.message||'Erreur lors de la réservation');
+    if(btn){btn.disabled=false;btn.textContent='Confirmer ma réservation';}
+  }
+}
+function resetClient(){
+  cState={step:1, cat:cState.cat, soinId:null, date:null, heure:null,
+          calM:new Date().getMonth(), calY:new Date().getFullYear(),
+          nom:'',prenom:'',tel:'',email:'',notes:''};
+  renderClient();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ESPACE ADMIN
+   ════════════════════════════════════════════════════════════════ */
+let aState={unlocked:false, tab:'rdv', dispoM:undefined, dispoY:undefined};
+
+function renderAdmin(){
+  const v=document.getElementById('view-admin');
+  if(!aState.unlocked){
+    v.innerHTML=adminLock();
+    const pin=document.getElementById('pinInput');
+    pin.focus(); pin.onkeydown=e=>{if(e.key==='Enter')tryUnlock();};
+    return;
+  }
+  v.innerHTML = adminTabs() + adminBody();
+  attachAdminEvents();
+}
+function adminLock(){
+  return `<div class="lock">
+    <div class="glyph">✦</div>
+    <h2 class="section-title">Mon espace</h2>
+    <p class="section-sub">Entre ton code d'accès</p>
+    <div class="field"><input id="pinInput" type="password" maxlength="12" placeholder="••••" inputmode="numeric"></div>
+    <button class="btn btn-primary" style="width:100%" onclick="tryUnlock()">Entrer</button>
+  </div>`;
+}
+async function tryUnlock(){
+  ADMIN_PIN_MEM = document.getElementById('pinInput').value;
+  try{
+    await loadAdminData();
+    aState.unlocked=true;
+    aState.dispoM=new Date().getMonth(); aState.dispoY=new Date().getFullYear();
+    renderAdmin();
+  }catch(e){
+    ADMIN_PIN_MEM=null;
+    toast('Code incorrect');
+  }
+}
+async function reloadAdmin(){ await loadAdminData(); renderAdmin(); }
+function adminTabs(){
+  const tabs=[['rdv','Rendez-vous'],['creneaux','Disponibilités'],['soins','Soins'],['sms','SMS & rappels'],['reglages','Réglages']];
+  let h='<div class="admin-tabs">';
+  tabs.forEach(([k,l])=>h+=`<button class="${aState.tab===k?'on':''}" data-tab="${k}">${l}</button>`);
+  return h+'</div>';
+}
+function adminBody(){
+  if(aState.tab==='rdv') return adminRdv();
+  if(aState.tab==='creneaux') return adminCreneaux();
+  if(aState.tab==='soins') return adminSoins();
+  if(aState.tab==='sms') return adminSms();
+  if(aState.tab==='reglages') return adminReglages();
+}
+function adminRdv(){
+  const auj=ymd(new Date());
+  const aVenir=ADMIN_RDVS.filter(r=>r.statut!=='annulé' && r.date>=auj).sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
+  const attente=aVenir.filter(r=>r.statut==='en attente').length;
+  const caMois=ADMIN_RDVS.filter(r=>r.statut==='confirmé' && r.date.slice(0,7)===auj.slice(0,7)).reduce((s,r)=>s+(r.prix||0),0);
+  let h=`<div class="stat-grid">
+    <div class="stat"><div class="n">${aVenir.length}</div><div class="l">À venir</div></div>
+    <div class="stat"><div class="n">${attente}</div><div class="l">En attente</div></div>
+    <div class="stat"><div class="n">${caMois}€</div><div class="l">CA du mois</div></div>
+  </div>`;
+  if(aVenir.length===0){ h+=`<p class="empty-note">Aucun rendez-vous à venir pour le moment.</p>`; return h; }
+  aVenir.forEach(r=>{
+    const sms=r.sms||{};
+    h+=`<div class="rdv">
+      <div class="rdv-top">
+        <div>
+          <div class="who">${r.prenom} ${r.nom}</div>
+          <div class="when">${JOURS[new Date(r.date+'T00:00:00').getDay()]} ${dateLisible(r.date)} · ${r.heure}</div>
+          <div class="soin-tag">${r.soinNom} · ${dureeLisible(r.duree)} · ${r.prix}€</div>
+        </div>
+        <span class="badge ${r.statut==='confirmé'?'confirme':'attente'}">${r.statut}</span>
+      </div>
+      <div class="contact">📞 ${r.tel}${r.email?` · ✉ ${r.email}`:''}</div>
+      ${r.notes?`<div class="contact">📝 ${r.notes}</div>`:''}
+      <div class="sms-log">Rappels : J-1 ${sms.j1?'<span>envoyé ✓</span>':'à venir'} · Jour J ${sms.jour?'<span>envoyé ✓</span>':'à venir'}</div>
+      <div class="rdv-actions">
+        ${r.statut==='en attente'?`<button class="mini go" data-confirm="${r.id}">Confirmer + SMS</button>`:''}
+        <button class="mini del" data-del="${r.id}">Annuler</button>
+      </div>
+    </div>`;
+  });
+  return h;
+}
+function adminCreneaux(){
+  const y=aState.dispoY,m=aState.dispoM;
+  const first=new Date(y,m,1).getDay();
+  const ndays=new Date(y,m+1,0).getDate();
+  const auj=ymd(new Date());
+  let h=`<div class="card"><h3>Mon planning</h3>
+    <p class="hint">Touche un jour pour l'ouvrir (ou le refermer). Tu règles ensuite tes horaires journée par journée, vraiment à la carte — parfait pour une semaine sur deux.</p>
+    <div class="cal"><div class="cal-head">
+      <button id="dispoPrev">‹</button>
+      <span class="mois">${MOIS[m]} ${y}</span>
+      <button id="dispoNext">›</button></div><div class="cal-grid">`;
+  ['L','M','M','J','V','S','D'].forEach(d=>h+=`<div class="wd">${d}</div>`);
+  let blanks=(first+6)%7;
+  for(let i=0;i<blanks;i++) h+='<div></div>';
+  for(let d=1;d<=ndays;d++){
+    const ds=`${y}-${pad(m+1)}-${pad(d)}`;
+    const ouvert=!!DISPOS[ds];
+    const passe=ds<auj;
+    let cls='cal-day';
+    if(ouvert) cls+=' sel'; else if(!passe) cls+=' av'; else cls+=' off';
+    h+=`<div class="${cls}" ${passe?'':`data-dispoday="${ds}"`}>${d}</div>`;
+  }
+  h+=`</div></div></div>`;
+  const jours=Object.keys(DISPOS).filter(ds=>ds>=auj).sort();
+  if(jours.length){
+    h+=`<div class="card"><h3>Mes journées ouvertes</h3>
+      <p class="hint">Règle l'heure de début et de fin pour chacune. La pause d'1h est gardée automatiquement entre 2 soins.</p>`;
+    jours.forEach(ds=>{
+      const c=DISPOS[ds];
+      const dd=new Date(ds+'T00:00:00');
+      h+=`<div class="day-row">
+        <span class="jour" style="width:auto;flex:1;min-width:130px">${JOURS_C[dd.getDay()]} ${dateLisible(ds)}</span>
+        <input type="time" value="${c.debut}" data-dispodebut="${ds}">
+        <span class="sep">→</span>
+        <input type="time" value="${c.fin}" data-dispofin="${ds}">
+        <button class="mini del" data-dispodel="${ds}" title="Fermer ce jour">✕</button>
+      </div>`;
+    });
+    h+=`</div>`;
+  }else{
+    h+=`<p class="empty-note">Aucune journée ouverte pour l'instant.<br>Touche un jour dans le calendrier pour commencer.</p>`;
+  }
+  return h;
+}
+function adminSoins(){
+  const cats=[...new Set(SOINS.map(s=>s.cat))];
+  let h=`<div class="card"><h3>Ajouter un soin</h3>
+    <p class="hint">Crée un nouveau soin : il apparaîtra aussitôt à la réservation, dans la famille choisie.</p>
+    <div class="field"><label>Nom du soin</label><input id="ns-nom" placeholder="Ex. Massage royal"></div>
+    <div class="field"><label>Famille</label>
+      <input id="ns-cat" list="ns-cat-list" placeholder="Choisis ou écris une famille">
+      <datalist id="ns-cat-list">${cats.map(c=>`<option value="${c}">`).join('')}</datalist>
+    </div>
+    <div class="field"><label>Durée (minutes)</label><input id="ns-duree" type="number" placeholder="60" inputmode="numeric"></div>
+    <div class="field"><label>Prix (€)</label><input id="ns-prix" type="number" placeholder="70" inputmode="numeric"></div>
+    <div class="field"><label>Description courte (facultatif)</label><textarea id="ns-desc" placeholder="Quelques mots qui donnent envie..."></textarea></div>
+    <div class="field"><label>Mention ✦ (facultatif — s'affiche en vert)</label><input id="ns-cure" placeholder="Ex. Cure de 4 séances — 240€"></div>
+    <button class="btn btn-primary" style="width:100%" id="ns-add">Ajouter ce soin</button>
+  </div>
+  <div class="card"><h3>Mes soins</h3>
+    <p class="hint">Modifie tout librement : nom, famille, durée, prix, description. Chaque changement est enregistré dès que tu sors du champ.</p></div>`;
+  const ea=v=>String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+  const et=v=>String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  SOINS.forEach(s=>{
+    h+=`<div class="card">
+      <div class="field"><label>Nom du soin</label><input value="${ea(s.nom)}" data-soinnom="${s.id}"></div>
+      <div class="field"><label>Famille</label><input list="ns-cat-list" value="${ea(s.cat)}" data-soincat="${s.id}"></div>
+      <div style="display:flex;gap:10px">
+        <div class="field" style="flex:1"><label>Durée (min)</label><input type="number" value="${s.duree}" data-soindur="${s.id}" inputmode="numeric"></div>
+        <div class="field" style="flex:1"><label>Prix (€)</label><input type="number" value="${s.prix}" data-soinprix="${s.id}" inputmode="numeric"></div>
+      </div>
+      <div class="field"><label>Description (facultatif)</label><textarea data-soindesc="${s.id}">${et(s.desc)}</textarea></div>
+      <div class="field"><label>Mention ✦ (en vert, facultatif)</label><input value="${ea(s.cure)}" data-soincure="${s.id}" placeholder="Ex. Cure de 4 séances — 240€"></div>
+      <button class="mini del" data-soindel="${s.id}">Supprimer ce soin</button>
+    </div>`;
+  });
+  return h;
+}
+function adminSms(){
+  return `<div class="card">
+    <h3>Connexion Brevo</h3>
+    <p class="hint">Ta clé Brevo et ton numéro d'alerte sont configurés en toute sécurité sur le serveur (variables Vercel). Tu n'as rien à coller ici.</p>
+    <div style="font-size:.78rem;color:var(--sage)">● Envoi des SMS géré côté serveur</div>
+  </div>
+  <div class="card">
+    <h3>Mes messages</h3>
+    <p class="hint">Variables disponibles : {nom} {soin} {date} {heure}</p>
+    <div class="field"><label>SMS de confirmation</label><textarea id="cfg-conf">${CFG.smsConfirm||''}</textarea></div>
+    <div class="field"><label>Rappel la veille (J-1)</label><textarea id="cfg-j1">${CFG.smsJ1||''}</textarea></div>
+    <div class="field"><label>Rappel le jour même</label><textarea id="cfg-jour">${CFG.smsJour||''}</textarea></div>
+    <button class="btn btn-primary" style="width:100%" id="saveSms">Enregistrer</button>
+    <div class="help"><b>Rappels automatiques :</b> chaque matin, le serveur envoie tout seul le rappel de la veille (J-1) et celui du jour même — même si l'application est fermée. Tu n'as rien à faire.</div>
+  </div>`;
+}
+function adminReglages(){
+  return `<div class="card">
+    <h3>Réglages</h3>
+    <div class="field"><label>Pause entre 2 soins (minutes)</label><input id="cfg-pause" type="number" value="${CFG.pause}"></div>
+    <div class="field"><label>Délai minimum avant réservation (heures)</label><input id="cfg-delai" type="number" value="${CFG.delaiMin}"></div>
+    <div class="field"><label>Intervalle des créneaux proposés (minutes)</label><input id="cfg-pas" type="number" value="${CFG.pas}"></div>
+    <button class="btn btn-primary" style="width:100%" id="saveReg">Enregistrer</button>
+  </div>
+  <div class="card">
+    <h3>Données</h3>
+    <p class="hint">Ton code d'accès est défini en toute sécurité sur le serveur (variable Vercel ADMIN_PIN). Pour le changer, modifie-le dans Vercel.</p>
+    <div class="nav-btns"><button class="btn btn-ghost" id="exportBtn">Exporter mes rendez-vous</button></div>
+  </div>`;
+}
+
+/* ─── Événements admin ─── */
+function attachAdminEvents(){
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{aState.tab=b.dataset.tab;renderAdmin();});
+  document.querySelectorAll('[data-confirm]').forEach(b=>b.onclick=()=>confirmerRdv(b.dataset.confirm));
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>annulerRdv(b.dataset.del));
+  // planning
+  const dp=document.getElementById('dispoPrev'); if(dp)dp.onclick=()=>{aState.dispoM--;if(aState.dispoM<0){aState.dispoM=11;aState.dispoY--;}renderAdmin();};
+  const dn=document.getElementById('dispoNext'); if(dn)dn.onclick=()=>{aState.dispoM++;if(aState.dispoM>11){aState.dispoM=0;aState.dispoY++;}renderAdmin();};
+  document.querySelectorAll('[data-dispoday]').forEach(b=>b.onclick=async()=>{
+    const ds=b.dataset.dispoday;
+    if(DISPOS[ds]) delete DISPOS[ds]; else DISPOS[ds]={debut:'09:00',fin:'18:00'};
+    try{ await saveDispos(); }catch(e){ toast(e.message); }
+    renderAdmin();
+  });
+  document.querySelectorAll('[data-dispodebut]').forEach(i=>i.onchange=async()=>{DISPOS[i.dataset.dispodebut].debut=i.value;try{await saveDispos();}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-dispofin]').forEach(i=>i.onchange=async()=>{DISPOS[i.dataset.dispofin].fin=i.value;try{await saveDispos();}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-dispodel]').forEach(b=>b.onclick=async()=>{delete DISPOS[b.dataset.dispodel];try{await saveDispos();}catch(e){toast(e.message);}renderAdmin();});
+  // soins
+  document.querySelectorAll('[data-soindur]').forEach(i=>i.onchange=async()=>{soinById(i.dataset.soindur).duree=+i.value;try{await saveServices();toast('Durée mise à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soinprix]').forEach(i=>i.onchange=async()=>{soinById(i.dataset.soinprix).prix=+i.value;try{await saveServices();toast('Tarif mis à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soinnom]').forEach(i=>i.onchange=async()=>{const s=soinById(i.dataset.soinnom);if(!s)return;const v=i.value.trim();if(!v){i.value=s.nom;toast('Le nom ne peut pas être vide');return;}s.nom=v;try{await saveServices();toast('Nom mis à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soincat]').forEach(i=>i.onchange=async()=>{const s=soinById(i.dataset.soincat);if(!s)return;const v=i.value.trim();if(!v){i.value=s.cat;toast('La famille ne peut pas être vide');return;}s.cat=v;try{await saveServices();toast('Famille mise à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soindesc]').forEach(i=>i.onchange=async()=>{const s=soinById(i.dataset.soindesc);if(!s)return;s.desc=i.value;try{await saveServices();toast('Description mise à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soincure]').forEach(i=>i.onchange=async()=>{const s=soinById(i.dataset.soincure);if(!s)return;s.cure=i.value.trim();try{await saveServices();toast('Mention mise à jour');}catch(e){toast(e.message);}});
+  document.querySelectorAll('[data-soindel]').forEach(b=>b.onclick=async()=>{
+    const s=soinById(b.dataset.soindel); if(!s)return;
+    if(!confirm('Supprimer le soin « '+s.nom+' » ?'))return;
+    SOINS=SOINS.filter(x=>x.id!==b.dataset.soindel);
+    try{ await saveServices(); toast('Soin supprimé'); }catch(e){ toast(e.message); }
+    renderAdmin();
+  });
+  const nsAdd=document.getElementById('ns-add'); if(nsAdd)nsAdd.onclick=async()=>{
+    const nom=val('ns-nom').trim(), cat=val('ns-cat').trim();
+    const duree=+val('ns-duree'), prix=+val('ns-prix'), desc=val('ns-desc').trim(), cure=val('ns-cure').trim();
+    if(!nom||!cat||!duree||isNaN(prix)){ toast('Renseigne au moins le nom, la famille, la durée et le prix'); return; }
+    SOINS.push({ id:'s'+Date.now().toString(36), cat, nom, duree, prix, desc, cure });
+    try{ await saveServices(); toast('Soin ajouté ✓'); }catch(e){ toast(e.message); }
+    renderAdmin();
+  };
+  // sms
+  const ss=document.getElementById('saveSms'); if(ss)ss.onclick=async()=>{
+    try{ await api('/api/config',{method:'POST',body:{smsConfirm:val('cfg-conf'),smsJ1:val('cfg-j1'),smsJour:val('cfg-jour')}});
+      CFG.smsConfirm=val('cfg-conf');CFG.smsJ1=val('cfg-j1');CFG.smsJour=val('cfg-jour'); toast('Messages enregistrés'); }catch(e){toast(e.message);}
+  };
+  // réglages
+  const sr=document.getElementById('saveReg'); if(sr)sr.onclick=async()=>{
+    const patch={pause:+val('cfg-pause')||0, delaiMin:+val('cfg-delai')||0, pas:+val('cfg-pas')||30};
+    try{ await api('/api/config',{method:'POST',body:patch}); Object.assign(CFG,patch); toast('Réglages enregistrés'); }catch(e){toast(e.message);}
+  };
+  const ex=document.getElementById('exportBtn'); if(ex)ex.onclick=exportData;
+}
+const val=id=>{const e=document.getElementById(id);return e?e.value:'';};
+async function saveDispos(){ await api('/api/availability',{method:'POST',body:{dispos:DISPOS}}); }
+async function saveServices(){ await api('/api/services',{method:'POST',body:SOINS}); }
+async function confirmerRdv(id){
+  try{ const r=await api('/api/confirm',{method:'POST',body:{id}}); await reloadAdmin();
+    toast(r.sms&&r.sms.ok?'Confirmé · SMS envoyé':'Confirmé · SMS non envoyé'); }catch(e){toast(e.message);}
+}
+async function annulerRdv(id){
+  if(!confirm('Annuler ce rendez-vous ?'))return;
+  try{ await api('/api/cancel',{method:'POST',body:{id}}); await reloadAdmin(); toast('Rendez-vous annulé'); }catch(e){toast(e.message);}
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(ADMIN_RDVS,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='rendezvous-geraldine-'+ymd(new Date())+'.json';a.click();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ROUTAGE
+   ════════════════════════════════════════════════════════════════ */
+async function setMode(m){
+  document.getElementById('m-client').classList.toggle('on',m==='client');
+  document.getElementById('m-admin').classList.toggle('on',m==='admin');
+  document.getElementById('view-client').style.display = m==='client'?'block':'none';
+  document.getElementById('view-admin').style.display  = m==='admin'?'block':'none';
+  const bf=document.getElementById('brand-footer'); if(bf) bf.style.display = m==='client'?'block':'none';
+  window.scrollTo(0,0);
+  if(m==='client'){
+    if(!CLIENT_LOADED){ try{ await loadClientData(); CLIENT_LOADED=true; }catch(e){ toast('Connexion impossible'); } }
+    renderClient();
+  } else { renderAdmin(); }
+}
+
+(async function init(){
+  try{ await loadClientData(); CLIENT_LOADED=true; }catch(e){ /* affichera l'erreur au besoin */ }
+  renderClient();
+})();
+</script>
+</body>
+</html>
