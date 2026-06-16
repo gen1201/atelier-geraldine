@@ -1,4 +1,4 @@
-// === L'Atelier Géraldine Esther — Méditation offerte (L'Élan Créateur) - v3 ===
+// === L'Atelier Géraldine Esther — Méditation offerte (L'Élan Créateur) - v4 ===
 // Enregistre l'email dans Brevo (liste optionnelle) et envoie la méditation par email.
 // Ne plante jamais : si l'envoi email échoue, la page donne quand même accès à la méditation.
 
