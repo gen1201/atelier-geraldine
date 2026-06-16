@@ -60,6 +60,7 @@ export default async function handler(req, res) {
       headers: { 'accept': 'application/json', 'content-type': 'application/json', 'api-key': apiKey },
       body: JSON.stringify({
         sender: { email: senderEmail, name: senderName },
+        replyTo: { email: 'gen1201@hotmail.fr' },
         to: [{ email }],
         subject: 'Ta méditation offerte 🌿 L\'Élan Créateur',
         htmlContent: html,
