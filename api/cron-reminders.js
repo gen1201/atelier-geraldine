@@ -1,4 +1,4 @@
- import { getReservations, setReservations, getConfig } from '../lib/db.js';
+import { getReservations, setReservations, getConfig } from '../lib/db.js';
 import { sendSMS, fillTemplate } from '../lib/sms.js';
 
 // Date au format YYYY-MM-DD dans le fuseau de Paris
